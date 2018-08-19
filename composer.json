@@ -1,0 +1,8 @@
+{
+    "require": {
+        "gufy/cpanel-php": "^1.1"
+    },
+    "require-dev": {
+        "psy/psysh": "^0.9.7"
+    }
+}
