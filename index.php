@@ -6,6 +6,12 @@ use Gufy\CpanelPhp\Cpanel;
 
 $config = require('config.php');
 
+notifyStart:
+    if ($config['notify_to']) {
+        $message = "Backup of site {$config['host']} is starting";
+        mail($config['notify_to'], $message, $message);
+    }
+
 getBackupName:
     $cpanel = new Cpanel($config);
     $response = $cpanel->execute_action(3, 'Backup', 'list_backups', $config['username']);
@@ -15,6 +21,12 @@ getBackupName:
 loginAndDownload:
     $session = createSession($config);
     downloadBackup($config, $session, $backup);
+
+notifyEnd:
+    if ($config['notify_to']) {
+        $message = "Backup of site {$config['host']} is done";
+        mail($config['notify_to'], $message);
+    }
 
 function downloadBackup($config, $session, $backup) {
     $fileHandle = fopen($config['destination'], 'w+');
